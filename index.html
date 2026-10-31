@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VitalLab - Laboratorio médico con análisis clínicos, exámenes especializados y atención personalizada.">
+    <meta name="theme-color" content="#1f6b3a">
+    <title>VitalLab | Laboratorio Médico</title>
+    <style>
+        /* ============ RESET Y VARIABLES ============ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --verde-principal: #1f6b3a;
+            --verde-oscuro: #145028;
+            --verde-claro: #2e8b4d;
+            --verde-suave: #e8f5ec;
+            --negro: #0f0f0f;
+            --gris-oscuro: #1a1a1a;
+            --gris: #555;
+            --gris-claro: #f4f6f5;
+            --blanco: #ffffff;
+            --whatsapp: #25d366;
+            --sombra: 0 4px 20px rgba(0,0,0,0.08);
+            --sombra-fuerte: 0 10px 40px rgba(0,0,0,0.2);
+            --radio: 12px;
+            --transicion: 0.3s ease;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+            line-height: 1.6;
+            color: #222;
+            background: var(--blanco);
+            overflow-x: hidden;
+        }
+
+        img, svg { max-width: 100%; display: block; }
+        a { color: inherit; text-decoration: none; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+        ul { list-style: none; }
+
+        .contenedor {
+            width: min(1200px, 92%);
+            margin-inline: auto;
+        }
+
+        section { padding: 5rem 0; }
+
+        h1, h2, h3 { line-height: 1.2; color: var(--verde-oscuro); }
+        h2.titulo-seccion {
+            text-align: center;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        h2.titulo-seccion::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 4px;
+            background: var(--verde-principal);
+            margin: 0.8rem auto 0;
+            border-radius: 2px;
+        }
+        .subtitulo {
+            text-align: center;
+            color: var(--gris);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-inline: auto;
+        }
+
+        /* ============ HEADER / NAV ============ */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--verde-principal);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--blanco);
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+        .logo svg { width: 38px; height: 38px; }
+
+        .menu {
+            display: flex;
+            gap: 2rem;
+        }
+        .menu a {
+            color: var(--blanco);
+            font-weight: 500;
+            padding: 0.4rem 0;
+            position: relative;
+            transition: var(--transicion);
+        }
+        .menu a::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: 0;
+            width: 0; height: 2px;
+            background: var(--blanco);
+            transition: width var(--transicion);
+        }
+        .menu a:hover::after, .menu a:focus::after { width: 100%; }
+
+        .btn-menu-movil {
+            display: none;
+            color: var(--blanco);
+            font-size: 1.8rem;
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-oscuro) 100%);
+            color: var(--blanco);
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -10%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
+            border-radius: 50%;
+        }
+        .hero-contenido {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            color: var(--blanco);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        .hero-botones { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform var(--transicion), box-shadow var(--transicion);
+            font-size: 1rem;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: var(--sombra); }
+        .btn-primario {
+            background: var(--blanco);
+            color: var(--verde-oscuro);
+        }
+        .btn-whatsapp {
+            background: var(--whatsapp);
+            color: var(--blanco);
+        }
+        .btn-whatsapp:hover { background: #1ebe5a; }
+
+        .hero-imagen {
+            display: flex;
+            justify-content: center;
+        }
+        .hero-imagen svg {
+            width: 100%;
+            max-width: 380px;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+        }
+
+        /* ============ NOSOTROS ============ */
+        .nosotros { background: var(--gris-claro); }
+        .mv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .mv-card {
+            background: var(--blanco);
+            padding: 2.5rem 2rem;
+            border-radius: var(--radio);
+            box-shadow: var(--sombra);
+            text-align: center;
+            transition: transform var(--transicion);
+            border-top: 4px solid var(--verde-principal);
+        }
+        .mv-card:hover { transform: translateY(-5px); }
+        .mv-card .icono {
+            width: 70px; height: 70px;
+            margin: 0 auto 1rem;
+            background: var(--verde-suave);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mv-card .icono svg { width: 36px; height: 36px; fill: var(--verde-principal); }
+        .mv-card h3 { margin-bottom: 0.8rem; font-size: 1.4rem; }
+
+        /* ============ SERVICIOS ============ */
+        .servicios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .servicio-card {
+            background: var(--blanco);
+            border-radius: var(--radio);
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            transition: transform var(--transicion), box-shadow var(--transicion);
+            display: flex;
+            flex-direction: column;
+        }
+        .servicio-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--sombra-fuerte);
+        }
+
+        .servicio-img {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            background: var(--verde-suave);
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+        .servicio-img svg {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        .servicio-card:hover .servicio-img svg { transform: scale(1.05); }
+
+        .servicio-img::after {
+            content: '🔍';
+            position: absolute;
+            top: 10px; right: 10px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity var(--transicion);
+        }
+        .servicio-img:hover::after { opacity: 1; }
+
+        .servicio-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .servicio-body h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
+        }
+        .servicio-body p {
+            color: var(--gris);
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+            flex: 1;
+        }
+
+        /* Paginador */
+        .paginador {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .paginador button {
+            min-width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--gris-claro);
+            color: var(--verde-oscuro);
+            font-weight: 600;
+            transition: var(--transicion);
+            padding: 0 0.8rem;
+        }
+        .paginador button:hover:not(:disabled) {
+            background: var(--verde-suave);
+        }
+        .paginador button.activo {
+            background: var(--verde-principal);
+            color: var(--blanco);
+        }
+        .paginador button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* ============ LIGHTBOX ============ */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 2rem;
+            animation: fadeIn 0.3s;
+        }
+        .lightbox.activo { display: flex; }
+        .lightbox-contenido {
+            max-width: 90vw;
+            max-height: 85vh;
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 1.5rem;
+            position: relative;
+            text-align: center;
+        }
+        .lightbox-contenido svg {
+            max-width: 100%;
+            max-height: 60vh;
+        }
+        .lightbox-contenido h3 {
+            margin-top: 1rem;
+            color: var(--verde-oscuro);
+        }
+        .lightbox-cerrar {
+            position: absolute;
+            top: -15px; right: -15px;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: var(--blanco);
+            color: var(--negro);
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: var(--sombra);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ============ FAQ ============ */
+        .faq { background: var(--gris-claro); }
+        .faq-lista {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: var(--blanco);
+            border-radius: var(--radio);
+            margin-bottom: 1rem;
+            box-shadow: var(--sombra);
+            overflow: hidden;
+        }
+        .faq-pregunta {
+            width: 100%;
+            text-align: left;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--verde-oscuro);
+            font-size: 1.05rem;
+            transition: background var(--transicion);
+        }
+        .faq-pregunta:hover { background: var(--verde-suave); }
+        .faq-pregunta .icono-faq {
+            transition: transform var(--transicion);
+            font-size: 1.3rem;
+            color: var(--verde-principal);
+        }
+        .faq-item.abierto .faq-pregunta .icono-faq {
+            transform: rotate(45deg);
+        }
+        .faq-respuesta {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            padding: 0 1.5rem;
+            color: var(--gris);
+        }
+        .faq-item.abierto .faq-respuesta {
+            max-height: 500px;
+            padding: 0 1.5rem 1.2rem;
+        }
+
+        /* ============ CONTACTO ============ */
+        .contacto-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .contacto-info h3 { margin-bottom: 1rem; }
+        .contacto-info p { margin-bottom: 1.5rem; color: var(--gris); }
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--gris);
+        }
+        .info-item .icono-info {
+            width: 45px; height: 45px;
+            background: var(--verde-suave);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .info-item .icono-info svg { width: 22px; height: 22px; fill: var(--verde-principal); }
+        .info-item strong { color: var(--verde-oscuro); display: block; }
+
+        form {
+            background: var(--blanco);
+            padding: 2.5rem;
+            border-radius: var(--radio);
+            box-shadow: var(--sombra);
+        }
+        .campo { margin-bottom: 1.3rem; }
+        .campo label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: var(--verde-oscuro);
+            font-size: 0.95rem;
+        }
+        .campo input, .campo select, .campo textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color var(--transicion);
+            background: var(--blanco);
+        }
+        .campo input:focus, .campo select:focus, .campo textarea:focus {
+            outline: none;
+            border-color: var(--verde-principal);
+        }
+        .campo.error input, .campo.error select, .campo.error textarea {
+            border-color: #e74c3c;
+        }
+        .campo .mensaje-error {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        .campo.error .mensaje-error { display: block; }
+
+        .btn-enviar {
+            width: 100%;
+            background: var(--verde-principal);
+            color: var(--blanco);
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: background var(--transicion);
+        }
+        .btn-enviar:hover { background: var(--verde-oscuro); }
+
+        .mensaje-exito {
+            display: none;
+            background: var(--verde-suave);
+            color: var(--verde-oscuro);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        .mensaje-exito.activo { display: block; }
+
+        /* ============ FOOTER ============ */
+        footer {
+            background: var(--negro);
+            color: #ccc;
+            padding: 4rem 0 1.5rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .footer-col h4 {
+            color: var(--blanco);
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            position: relative;
+            padding-bottom: 0.6rem;
+        }
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 40px; height: 3px;
+            background: var(--verde-principal);
+            border-radius: 2px;
+        }
+        .footer-col p, .footer-col li {
+            margin-bottom: 0.7rem;
+            font-size: 0.95rem;
+        }
+        .footer-col a {
+            transition: color var(--transicion);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .footer-col a:hover { color: var(--verde-claro); }
+
+        .contacto-footer-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 0.8rem;
+        }
+        .contacto-footer-item svg {
+            width: 18px; height: 18px;
+            fill: var(--verde-claro);
+            flex-shrink: 0;
+        }
+
+        .redes-sociales {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        .redes-sociales a {
+            width: 42px; height: 42px;
+            background: var(--gris-oscuro);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transicion);
+        }
+        .redes-sociales a:hover {
+            background: var(--verde-principal);
+            transform: translateY(-3px);
+        }
+        .redes-sociales svg { width: 20px; height: 20px; fill: var(--blanco); }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 900px) {
+            .hero-contenido, .contacto-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-imagen { order: -1; }
+            .hero-imagen svg { max-width: 260px; }
+        }
+
+        @media (max-width: 768px) {
+            section { padding: 3.5rem 0; }
+
+            .btn-menu-movil { display: block; }
+            .menu {
+                position: absolute;
+                top: 100%; left: 0; right: 0;
+                background: var(--verde-oscuro);
+                flex-direction: column;
+                padding: 1rem 0;
+                gap: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease;
+            }
+            .menu.abierto { max-height: 400px; }
+            .menu li { width: 100%; }
+            .menu a {
+                display: block;
+                padding: 0.9rem 1.5rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            form { padding: 1.5rem; }
+        }
+
+        /* Accesibilidad */
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--verde-claro);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+    <div class="contenedor nav-bar">
+        <a href="#inicio" class="logo" aria-label="VitalLab - Inicio">
+            <svg viewBox="0 0 40 40" aria-hidden="true">
+                <circle cx="20" cy="20" r="18" fill="#ffffff"/>
+                <path d="M20 8 L20 32 M12 20 L28 20" stroke="#1f6b3a" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="20" cy="20" r="5" fill="#1f6b3a"/>
+            </svg>
+            <span>VitalLab</span>
+        </a>
+
+        <button class="btn-menu-movil" aria-label="Abrir menú" aria-expanded="false" id="btnMenu">☰</button>
+
+        <nav aria-label="Navegación principal">
+            <ul class="menu" id="menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#faq">Preguntas</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="inicio">
+        <div class="contenedor hero-contenido">
+            <div>
+                <h1>Tu salud en manos expertas</h1>
+                <p>En VitalLab realizamos análisis clínicos y exámenes especializados con tecnología de punta y resultados confiables. Tu bienestar es nuestra prioridad.</p>
+                <div class="hero-botones">
+                    <a href="#servicios" class="btn btn-primario">Ver servicios</a>
+                    <a href="https://wa.me/573001234567?text=Hola,%20quiero%20información%20sobre%20sus%20servicios" target="_blank" rel="noopener" class="btn btn-whatsapp">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="hero-imagen" aria-hidden="true">
+                <svg viewBox="0 0 400 400">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.95"/>
+                            <stop offset="100%" style="stop-color:#e8f5ec;stop-opacity:0.95"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="200" cy="200" r="180" fill="url(#grad1)"/>
+                    <!-- Tubo de ensayo -->
+                    <rect x="150" y="120" width="40" height="180" rx="8" fill="#1f6b3a" opacity="0.9"/>
+                    <rect x="155" y="180" width="30" height="115" rx="5" fill="#e74c3c" opacity="0.85"/>
+                    <rect x="140" y="110" width="60" height="15" rx="4" fill="#145028"/>
+                    <!-- Microscopio -->
+                    <circle cx="280" cy="180" r="35" fill="#1f6b3a"/>
+                    <circle cx="280" cy="180" r="20" fill="#ffffff"/>
+                    <rect x="275" y="215" width="10" height="80" fill="#1f6b3a"/>
+                    <rect x="250" y="290" width="60" height="10" rx="3" fill="#145028"/>
+                    <!-- Cruz médica -->
+                    <rect x="95" y="220" width="30" height="80" rx="4" fill="#2e8b4d"/>
+                    <rect x="70" y="245" width="80" height="30" rx="4" fill="#2e8b4d"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ NOSOTROS ============ -->
+    <section class="nosotros" id="nosotros">
+        <div class="contenedor">
+            <h2 class="titulo-seccion">Nosotros</h2>
+            <p class="subtitulo">Conoce nuestra misión y visión, pilares del compromiso que tenemos con tu salud.</p>
+
+            <div class="mv-grid">
+                <article class="mv-card">
+                    <div class="icono">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h3>Nuestra Misión</h3>
+                    <p>Brindar servicios de análisis clínicos y exámenes médicos de la más alta calidad, con resultados precisos, oportunos y confiables, contribuyendo al diagnóstico y prevención de enfermedades, con un trato humano y profesional.</p>
+                </div>
+
+                <article class="mv-card">
+                    <div class="icono">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <h3>Nuestra Visión</h3>
+                    <p>Ser el laboratorio médico de referencia a nivel nacional, reconocido por la excelencia científica, la innovación tecnológica y el compromiso con el bienestar integral de nuestros pacientes y la comunidad.</p>
+                </div>
+
+                <article class="mv-card">
+                    <div class="icono">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </div>
+                    <h3>Nuestros Valores</h3>
+                    <p>Ética, responsabilidad, confidencialidad, compromiso con la calidad y un profundo respeto por la dignidad humana. Cada paciente es único y merece la mejor atención.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SERVICIOS ============ -->
+    <section id="servicios">
+        <div class="contenedor">
+            <h2 class="titulo-seccion">Nuestros Servicios</h2>
+            <p class="subtitulo">Ofrecemos una amplia gama de exámenes y análisis clínicos con tecnología de vanguardia.</p>
+
+            <div class="servicios-grid" id="serviciosGrid"></div>
+
+            <div class="paginador" id="paginador" aria-label="Paginación de servicios"></div>
+        </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="faq" id="faq">
+        <div class="contenedor">
+            <h2 class="titulo-seccion">Preguntas Frecuentes</h2>
+            <p class="subtitulo">Resolvemos las dudas más comunes sobre nuestros servicios de laboratorio.</p>
+
+            <div class="faq-lista" id="faqLista">
+                <div class="faq-item">
+                    <button class="faq-pregunta" aria-expanded="false">
+                        <span>¿Necesito ayuno para todos los exámenes de sangre?</span>
+                        <span class="icono-faq" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-respuesta">
+                        <p>No todos los exámenes requieren ayuno. Para perfil lipídico, glucosa y pruebas hepáticas se recomienda ayuno de 8 a 12 horas. Para hemograma completo no es necesario. Siempre confirmamos los requisitos específicos al agendar tu cita.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pregunta" aria-expanded="false">
+                        <span>¿Cuánto tiempo tardan los resultados?</span>
+                        <span class="icono-faq" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-respuesta">
+                        <p>Los resultados de exámenes de rutina se entregan en 24 horas. Pruebas especialadas como hormonales, microbiológicas o genéticas pueden tomar entre 3 y 7 días hábiles. Te notificamos por correo cuando estén disponibles.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pregunta" aria-expanded="false">
+                        <span>¿Atienden emergencias o solo con cita previa?</span>
+                        <span class="icono-faq" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-respuesta">
+                        <p>Atendemos tanto con cita previa como sin cita para exámenes de rutina. Para pruebas especialadas o cheques completos, recomendamos agendar para garantizar disponibilidad y menor tiempo de espera.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pregunta" aria-expanded="false">
+                        <span>¿Los resultados son confidenciales?</span>
+                        <span class="icono-faq" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-respuesta">
+                        <p>Absolutamente. Cumplimos con todas las normas de protección de datos y manejo de información médica. Tus resultados solo son entregados a ti o a la persona que autorices por escrito.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pregunta" aria-expanded="false">
+                        <span>¿Trabajan con EPS y medicina prepagada?</span>
+                        <span class="icono-faq" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-respuesta">
+                        <p>Sí, trabajamos con las principales EPS, prepagadas y ARL del país. También ofrecemos planes especiales para empresas y atención particular con tarifas competitivas.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pregunta" aria-expanded="false">
+                        <span>¿Puedo recibir mis resultados de forma digital?</span>
+                        <span class="icono-faq" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-respuesta">
+                        <p>Sí, todos nuestros resultados se envían de forma segura al correo electrónico registrado y están disponibles en nuestra plataforma web con acceso mediante usuario y contraseña.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pregunta" aria-expanded="false">
+                        <span>¿Toman muestras a domicilio?</span>
+                        <span class="icono-faq" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-respuesta">
+                        <p>Sí, contamos con servicio de toma de muestras a domicilio en la ciudad y áreas cercanas, con personal capacitado y todos los protocolos de bioseguridad. Aplica para ciertos tipos de exámenes.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pregunta" aria-expanded="false">
+                        <span>¿Qué debo llevar el día del examen?</span>
+                        <span class="icono-faq" aria-hidden="true">+</span>
+                    </button>
+                    <div class="faq-respuesta">
+                        <p>Debes traer tu documento de identificación, orden médica (si aplica) y autorización de tu EPS si el examen es cubierto. Para algunos exámenes específicos te indicamos requerimientos adicionales al agendar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CONTACTO ============ -->
+    <section id="contacto">
+        <div class="contenedor">
+            <h2 class="titulo-seccion">Contáctanos</h2>
+            <p class="subtitulo">Estamos listos para atenderte. Escríbenos y te responderemos a la brevedad.</p>
+
+            <div class="contacto-grid">
+                <div class="contacto-info">
+                    <h3>Información de contacto</h3>
+                    <p>Puedes comunicarte con nosotros por cualquiera de estos medios. Nuestro equipo te asesorará con gusto.</p>
+
+                    <div class="info-item">
+                        <div class="icono-info">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Correo</strong>
+                            contacto@vitallab.com
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="icono-info">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Teléfono</strong>
+                            +57 300 123 4567
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="icono-info">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Dirección</strong>
+                            Calle 123 #45-67, Ciudad
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="icono-info">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Horario</strong>
+                            Lun - Vie: 6:00 am - 6:00 pm<br>
+                            Sáb: 7:00 am - 1:00 pm
+                        </div>
+                    </div>
+                </div>
+
+                <form id="formContacto" novalidate>
+                    <div class="mensaje-exito" id="mensajeExito">✓ Mensaje enviado correctamente. Te contactaremos pronto.</div>
+
+                    <div class="campo">
+                        <label for="nombre">Nombre completo *</label>
+                        <input type="text" id="nombre" name="nombre" required minlength="3" autocomplete="name">
+                        <span class="mensaje-error">Por favor ingresa tu nombre (mínimo 3 caracteres).</span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="correo">Correo electrónico *</label>
+                        <input type="email" id="correo" name="correo" required autocomplete="email">
+                        <span class="mensaje-error">Ingresa un correo electrónico válido.</span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="telefono">Teléfono *</label>
+                        <input type="tel" id="telefono" name="telefono" required pattern="[0-9+\s()-]{7,20}" autocomplete="tel">
+                        <span class="mensaje-error">Ingresa un teléfono válido (7-20 caracteres).</span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="tipoConsulta">Tipo de consulta *</label>
+                        <select id="tipoConsulta" name="tipoConsulta" required>
+                            <option value="">-- Selecciona una opción --</option>
+                            <option value="analisis">Análisis clínicos</option>
+                            <option value="examenes">Exámenes especializados</option>
+                            <option value="recomendaciones">Recomendaciones</option>
+                            <option value="varios">Varios</option>
+                        </select>
+                        <span class="mensaje-error">Selecciona un tipo de consulta.</span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="mensaje">Mensaje (opcional)</label>
+                        <textarea id="mensaje" name="mensaje" rows="4" maxlength="500"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-enviar">Enviar mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada">
+    <div class="lightbox-contenido">
+        <button class="lightbox-cerrar" id="lightboxCerrar" aria-label="Cerrar">✕</button>
+        <div id="lightboxImagen"></div>
+        <h3 id="lightboxTitulo"></h3>
+    </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+    <div class="contenedor">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>VitalLab</h4>
+                <p>Laboratorio médico comprometido con tu salud, ofreciendo análisis clínicos de calidad con tecnología de vanguardia.</p>
+                <div class="redes-sociales" aria-label="Redes sociales">
+                    <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                    </a>
+                    <a href="https://wa.me/573001234567" target="_blank" rel="noopener" aria-label="WhatsApp">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Enlaces rápidos</h4>
+                <ul>
+                    <li><a href="#inicio">→ Inicio</a></li>
+                    <li><a href="#nosotros">→ Nosotros</a></li>
+                    <li><a href="#servicios">→ Servicios</a></li>
+                    <li><a href="#faq">→ Preguntas frecuentes</a></li>
+                    <li><a href="#contacto">→ Contacto</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="#servicios">→ Análisis clínicos</a></li>
+                    <li><a href="#servicios">→ Exámenes de sangre</a></li>
+                    <li><a href="#servicios">→ Pruebas hormonales</a></li>
+                    <li><a href="#servicios">→ Imagenología</a></li>
+                    <li><a href="#servicios">→ Chequeos preventivos</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <div class="contacto-footer-item">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                    <span>+57 300 123 4567</span>
+                </div>
+                <div class="contacto-footer-item">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    <span>contacto@vitallab.com</span>
+                </div>
+                <div class="contacto-footer-item">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+                    <span>Calle 123 #45-67, Ciudad</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 VitalLab. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // ============ DATOS DE SERVICIOS ============
+    // SVGs inline para evitar imágenes rotas
+    const servicios = [
+        {
+            titulo: "Análisis Clínicos de Sangre",
+            descripcion: "Hemogramas completos, química sanguínea y perfiles lipídicos con resultados precisos y oportunos.",
+            svg: `<svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#e8f5ec"/><circle cx="200" cy="150" r="80" fill="#1f6b3a" opacity="0.15"/><rect x="170" y="60" width="60" height="180" rx="10" fill="#1f6b3a"/><rect x="178" y="130" width="44" height="100" rx="6" fill="#c0392b"/><rect x="160" y="50" width="80" height="15" rx="4" fill="#145028"/><circle cx="200" cy="180" r="8" fill="#fff" opacity="0.6"/></svg>`
+        },
+        {
+            titulo: "Exámenes de Orina",
+            descripcion: "Uroanálisis completo, urocultivos y pruebas especializadas para el diagnóstico urinario.",
+            svg: `<svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#e8f5ec"/><circle cx="200" cy="150" r="80" fill="#1f6b3a" opacity="0.15"/><path d="M160 80 L160 220 Q160 240 180 240 L220 240 Q240 240 240 220 L240 80 Z" fill="#3498db" opacity="0.7"/><path d="M160 150 L240 150 L240 220 Q240 240 220 240 L180 240 Q160 240 160 220 Z" fill="#f39c12" opacity="0.8"/><rect x="155" y="70" width="90" height="15" rx="4" fill="#1f6b3a"/></svg>`
+        },
+        {
+            titulo: "Pruebas Hormonales",
+            descripcion: "Evaluación completa del perfil hormonal: tiroides, sexual, metabólico y más.",
+            svg: `<svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#e8f5ec"/><circle cx="200" cy="150" r="80" fill="#1f6b3a" opacity="0.15"/><circle cx="200" cy="140" r="50" fill="#9b59b6" opacity="0.8"/><path d="M175 130 Q200 100 225 130" stroke="#fff" stroke-width="4" fill="none"/><path d="M175 150 Q200 180 225 150" stroke="#fff" stroke-width="4" fill="none"/><rect x="195" y="190" width="10" height="40" fill="#1f6b3a"/><circle cx="200" cy="240" r="15" fill="#145028"/></svg>`
+        },
+        {
+            titulo: "Estudios Microbiológicos",
+            descripcion: "Cultivos bacterianos, antibiogramas y detección de patógenos con tecnología avanzada.",
+            svg: `<svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#e8f5ec"/><circle cx="200" cy="150" r="80" fill="#1f6b3a" opacity="0.15"/><circle cx="200" cy="150" r="60" fill="#fff" stroke="#1f6b3a" stroke-width="3"/><circle cx="180" cy="130" r="8" fill="#27ae60"/><circle cx="220" cy="140" r="6" fill="#27ae60"/><circle cx="190" cy="170" r="10" fill="#27ae60"/><circle cx="215" cy="175" r="5" fill="#27ae60"/><circle cx="170" cy="160" r="4" fill="#27ae60"/><circle cx="230" cy="160" r="7" fill="#27ae60"/></svg>`
+        },
+        {
+            titulo: "Imagenología y Rayos X",
+            descripcion: "Radiografías digitales, ecografías y estudios por imagen con equipos de última generación.",
+            svg: `<svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#e8f5ec"/><circle cx="200" cy="150" r="80" fill="#1f6b3a" opacity="0.15"/><rect x="140" y="80" width="120" height="140" rx="8" fill="#2c3e50"/><rect x="150" y="90" width="100" height="120" rx="4" fill="#ecf0f1"/><path d="M180 110 L180 180 M220 110 L220 180 M160 140 L240 140" stroke="#2c3e50" stroke-width="6" stroke-linecap="round"/><circle cx="200" cy="150" r="15" fill="none" stroke="#2c3e50" stroke-width="4"/></svg>`
+        },
+        {
+            titulo: "Ecografías",
+            descripcion: "Ecografías obstétricas, abdominales, tiroideas y más con especialistas certificados.",
+            svg: `<svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#e8f5ec"/><circle cx="200" cy="150" r="80" fill="#1f6b3a" opacity="0.15"/><rect x="170" y="70" width="60" height="100" rx="8" fill="#34495e"/><circle cx="200" cy="100" r="15" fill="#1abc9c"/><rect x="185" y="170" width="30" height="60" rx="4" fill="#34495e"/><path d="M170 120 Q200 140 230 120" stroke="#1abc9c" stroke-width="3" fill="none"/><path d="M170 130 Q200 150 230 130" stroke="#1abc9c" stroke-width="3" fill="none"/></svg>`
+        },
+        {
+            titulo: "Pruebas Genéticas",
+            descripcion: "Estudios de ADN, pruebas de paternidad y análisis genéticos especializados.",
+            svg: `<svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#e8f5ec"/><circle cx="200" cy="150" r="80" fill="#1f6b3a" opacity="0.15"/><path d="M170 80 Q200 150 170 220" stroke="#e74c3c" stroke-width="6" fill="none"/><path d="M230 80 Q200 150 230 220" stroke="#3498db" stroke-width="6" fill="none"/><line x1="175" y1="100" x2="225" y2="100" stroke="#2c3e50" stroke-width="3"/><line x1="180" y1="130" x2="220" y2="130" stroke="#2c3e50" stroke-width="3"/><line x1="180" y1="160" x2="220" y2="160" stroke="#2c3e50" stroke-width="3"/><line x1="175" y1="190" x2="225" y2="190" stroke="#2c3e50" stroke-width="3"/></svg>`
+        },
+        {
+            titulo: "Chequeos Preventivos",
+            descripcion: "Paquetes completos de evaluación médica para prevenir y detectar enfermedades a tiempo.",
+            svg: `<svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#e8f5ec"/><circle cx="200" cy="150" r="80" fill="#1f6b3a" opacity="0.15"/><rect x="160" y="100" width="80" height="100" rx="8" fill="#fff" stroke="#1f6b3a" stroke-width="3"/><rect x="190" y="120" width="20" height="60" fill="#1f6b3a"/><rect x="170" y="140" width="60" height="20" fill="#1f6b3a"/><circle cx="200" cy="80" r="15" fill="#e74c3c"/></svg>`
+        }
+    ];
+
+    // ============ RENDERIZAR SERVICIOS ============
+    const grid = document.getElementById('serviciosGrid');
+    const paginador = document.getElementById('paginador');
+    const POR_PAGINA = 4;
+    let paginaActual = 1;
+    const totalPaginas = Math.ceil(servicios.length / POR_PAGINA);
+
+    function renderServicios() {
+        grid.innerHTML = '';
+        const inicio = (paginaActual - 1) * POR_PAGINA;
+        const fin = inicio + POR_PAGINA;
+        const serviciosPagina = servicios.slice(inicio, fin);
+
+        serviciosPagina.forEach((s, idx) => {
+            const card = document.createElement('article');
+            card.className = 'servicio-card';
+            card.innerHTML = `
+                <div class="servicio-img" data-index="${inicio + idx}" role="button" tabindex="0" aria-label="Ampliar imagen de ${s.titulo}">
+                    ${s.svg}
+                </div>
+                <div class="servicio-body">
+                    <h3>${s.titulo}</h3>
+                    <p>${s.descripcion}</p>
+                    <a href="https://wa.me/573001234567?text=${encodeURIComponent('Hola, me interesa el servicio: ' + s.titulo)}" 
+                       target="_blank" rel="noopener" class="btn btn-whatsapp">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Preguntar
+                    </a>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // Eventos para lightbox
+        document.querySelectorAll('.servicio-img').forEach(img => {
+            img.addEventListener('click', () => abrirLightbox(parseInt(img.dataset.index)));
+            img.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    abrirLightbox(parseInt(img.dataset.index));
+                }
+            });
+        });
+
+        renderPaginador();
+    }
+
+    function renderPaginador() {
+        paginador.innerHTML = '';
+
+        const btnAnt = document.createElement('button');
+        btnAnt.textContent = '← Ant';
+        btnAnt.disabled = paginaActual === 1;
+        btnAnt.addEventListener('click', () => { paginaActual--; renderServicios(); });
+        paginador.appendChild(btnAnt);
+
+        for (let i = 1; i <= totalPaginas; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            if (i === paginaActual) btn.classList.add('activo');
+            btn.addEventListener('click', () => { paginaActual = i; renderServicios(); });
+            paginador.appendChild(btn);
+        }
+
+        const btnSig = document.createElement('button');
+        btnSig.textContent = 'Sig →';
+        btnSig.disabled = paginaActual === totalPaginas;
+        btnSig.addEventListener('click', () => { paginaActual++; renderServicios(); });
+        paginador.appendChild(btnSig);
+    }
+
+    // ============ LIGHTBOX ============
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImagen = document.getElementById('lightboxImagen');
+    const lightboxTitulo = document.getElementById('lightboxTitulo');
+    const lightboxCerrar = document.getElementById('lightboxCerrar');
+
+    function abrirLightbox(index) {
+        const s = servicios[index];
+        lightboxImagen.innerHTML = s.svg;
+        lightboxTitulo.textContent = s.titulo;
+        lightbox.classList.add('activo');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarLightbox() {
+        lightbox.classList.remove('activo');
+        document.body.style.overflow = '';
+    }
+
+    lightboxCerrar.addEventListener('click', cerrarLightbox);
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) cerrarLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('activo')) cerrarLightbox();
+    });
+
+    // ============ FAQ ACORDEÓN ============
+    document.querySelectorAll('.faq-pregunta').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.parentElement;
+            const abierto = item.classList.contains('abierto');
+
+            // Cerrar todos
+            document.querySelectorAll('.faq-item').forEach(i => {
+                i.classList.remove('abierto');
+                i.querySelector('.faq-pregunta').setAttribute('aria-expanded', 'false');
+            });
+
+            if (!abierto) {
+                item.classList.add('abierto');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    // ============ MENÚ MÓVIL ============
+    const btnMenu = document.getElementById('btnMenu');
+    const menu = document.getElementById('menu');
+
+    btnMenu.addEventListener('click', () => {
+        const abierto = menu.classList.toggle('abierto');
+        btnMenu.setAttribute('aria-expanded', abierto);
+        btnMenu.textContent = abierto ? '✕' : '☰';
+    });
+
+    menu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            menu.classList.remove('abierto');
+            btnMenu.setAttribute('aria-expanded', 'false');
+            btnMenu.textContent = '☰';
+        });
+    });
+
+    // ============ VALIDACIÓN FORMULARIO ============
+    const form = document.getElementById('formContacto');
+    const mensajeExito = document.getElementById('mensajeExito');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let valido = true;
+
+        // Limpiar errores
+        form.querySelectorAll('.campo').forEach(c => c.classList.remove('error'));
+
+        const nombre = document.getElementById('nombre');
+        if (!nombre.value.trim() || nombre.value.trim().length < 3) {
+            nombre.parentElement.classList.add('error');
+            valido = false;
+        }
+
+        const correo = document.getElementById('correo');
+        const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regexCorreo.test(correo.value.trim())) {
+            correo.parentElement.classList.add('error');
+            valido = false;
+        }
+
+        const telefono = document.getElementById('telefono');
+        const regexTel = /^[0-9+\s()-]{7,20}$/;
+        if (!regexTel.test(telefono.value.trim())) {
+            telefono.parentElement.classList.add('error');
+            valido = false;
+        }
+
+        const tipo = document.getElementById('tipoConsulta');
+        if (!tipo.value) {
+            tipo.parentElement.classList.add('error');
+            valido = false;
+        }
+
+        if (valido) {
+            mensajeExito.classList.add('activo');
+            form.reset();
+            setTimeout(() => mensajeExito.classList.remove('activo'), 5000);
+        }
+    });
+
+    // ============ INICIALIZAR ============
+    renderServicios();
+</script>
+
+</body>
+</html>
